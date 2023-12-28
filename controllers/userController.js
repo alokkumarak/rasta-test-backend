@@ -5,14 +5,14 @@ const User = require('../models/userTestModel.js');
 
 const ProfileModel = require('../models/profileModel.js');
 
-// exports.getData = async (req, res) => {
-//     try {
-//         const data = await ProfileModel.findOne({ Username: req.params.Username });
-//         res.json(data);
-//     } catch (err) {
-//         res.json({ message: err });
-//     }
-// }
+exports.getDataDummy = async (req, res) => {
+    try {
+        const data = await ProfileModel.findOne({ Username: req.params.Username });
+        res.json(data);
+    } catch (err) {
+        res.json({ message: err });
+    }
+}
 exports.getData = async (req, res) => {
     try {
         console.log('Received request for profile with Username:', req.params.Username);
