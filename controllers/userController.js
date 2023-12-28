@@ -1,16 +1,34 @@
 
 const userModel = require('../models/userModel.js');
-const ProfileSchema = require('../models/profileModel.js');
+// const ProfileSchema = require('../models/profileModel.js');
 const User = require('../models/userTestModel.js');
+
+const ProfileModel = require('../models/profileModel.js');
 
 // exports.getData = async (req, res) => {
 //     try {
-//         const data = await userModel.findOne({ Username: req.params.Username });
+//         const data = await ProfileModel.findOne({ Username: req.params.Username });
 //         res.json(data);
 //     } catch (err) {
 //         res.json({ message: err });
 //     }
 // }
+exports.getData = async (req, res) => {
+    try {
+        console.log('Received request for profile with Username:', req.params.Username);
+    //   const Username = req.params.Username;
+    //   console.log('Received request for profile with Username:', Username);
+      const profile = await ProfileModel.findOne({ Username: req.params.Username  });
+//    console.log('Received request for profile with Username:', Username);
+      if (!profile) {
+        return res.status(404).json({ message: 'Profile not found' });
+      }
+      res.json(profile);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
 
 exports.postData = async (req, res) => {
     
@@ -29,20 +47,6 @@ exports.postData = async (req, res) => {
 }
 
 
-exports.getData = async (req, res) => {
-    try {
-      const Username = req.params.Username;
-      const profile = await ProfileSchema.ProfileModel.findOne({ Username });
-  
-      if (!profile) {
-        return res.status(404).json({ message: 'Profile not found' });
-      }
-      res.json(profile);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
 
   exports.login = async (req, res) => {
     const { username, password } = req.body;
